@@ -12,6 +12,8 @@
                     <div><img :src="getFlag(element.original_language)" alt=""></div>
                     <div>{{ Math.ceil((element.vote_average) / 2) }}</div>
                     <div>
+                        <i v-for="(star,index) in Math.ceil((element.vote_average) / 2)" :key="index" class="fas fa-star"></i>
+                        <i v-for="(star,index) in ( 5 - Math.ceil((element.vote_average) / 2))" :key="index" class="far fa-star"></i>
                     </div>
                 </li>
             </ul>
@@ -22,6 +24,10 @@
                     <div><img :src="imgFilm + element.backdrop_path" alt=""></div>
                     <div>{{ element.name }}</div>
                     <div>{{ element.original_name }}</div>
+                     <div>
+                        <i v-for="(star,index) in Math.ceil((element.vote_average) / 2)" :key="index" class="fas fa-star"></i>
+                        <i v-for="(star,index) in ( 5 - Math.ceil((element.vote_average) / 2))" :key="index" class="far fa-star"></i>
+                    </div>
                 </li>
             </ul>
         </div>
