@@ -12,7 +12,6 @@
                     <div><img :src="getFlag(element.original_language)" alt=""></div>
                     <div>{{ Math.ceil((element.vote_average) / 2) }}</div>
                     <div>
-                        <star-rating></star-rating>
                     </div>
                 </li>
             </ul>
@@ -32,13 +31,9 @@
 
 <script>
 import axios from 'axios';
-import StarRating from 'vue-star-rating'
 
 export default {
     name: "Body",
-    components: {
-        StarRating,
-    },
     data: function(){
         return {
             searched: '',
