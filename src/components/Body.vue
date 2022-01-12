@@ -6,23 +6,23 @@
             <h2>FILMS</h2>
             <ul>
                 <li v-for="(element,index) in foundFilms" :key="index">
+                    <div><img :src="imgFilm + element.poster_path" alt=""></div>
                     <div>{{ element.title }}</div>
                     <div>{{ element.original_title }}</div>
                     <div><img :src="getFlag(element.original_language)" alt=""></div>
-                    <div>{{ element.vote_average }}</div>
+                    <div>{{ Math.ceil((element.vote_average) / 2) }}</div>
+                    <div>
+                        <star-rating></star-rating>
+                    </div>
                 </li>
             </ul>
         
             <h2>TV SERIES</h2>
             <ul>
                 <li v-for="(element,index) in foundTv" :key="index">
+                    <div><img :src="imgFilm + element.backdrop_path" alt=""></div>
                     <div>{{ element.name }}</div>
                     <div>{{ element.original_name }}</div>
-                    <div>
-                        <img v-if="getFlag(element.original_language)" :src="getFlag(element.original_language)" alt="">
-                        <span v-else>{{ element.original_language }}</span>
-                    </div>
-                    <div>{{ element.vote_average }}</div>
                 </li>
             </ul>
         </div>
@@ -32,15 +32,22 @@
 
 <script>
 import axios from 'axios';
+import StarRating from 'vue-star-rating'
 
 export default {
     name: "Body",
+    components: {
+        StarRating,
+    },
     data: function(){
         return {
             searched: '',
             foundFilms: [],
             foundTv: [],
-            flag: ''
+            flag: '',
+            imgFilm: 'http://image.tmdb.org/t/p/w500/',
+            stars: [],
+            noStars: []
         }
     },
     methods: {
@@ -53,7 +60,6 @@ export default {
                 }
             }).then((response) => {
                 this.foundFilms = response.data.results;
-                console.log(this.foundFilms);
             }
         )},
         searchSeriesInApi: function(){
@@ -64,7 +70,6 @@ export default {
                 }
             }).then((response) => {
                 this.foundTv = response.data.results;
-                console.log(this.foundTv);
             }
         )},
         getFlag: function(flagInput){
@@ -76,7 +81,8 @@ export default {
                 return 'https://countryflagsapi.com/svg/' + flagInput;
             }
         }
-    }
+    },
+    
 }
 </script>
 
