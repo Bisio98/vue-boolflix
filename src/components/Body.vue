@@ -1,111 +1,48 @@
 <template>
-    <div>
-        <input v-model="searched" type="text">
-        <button @click="searchFilmsInApi(); searchSeriesInApi();">Cerca</button>
+    <body class="container">
         <div class="list">
             <h2>FILMS</h2>
-            <ul>
-                <li v-for="(element,index) in foundFilms" :key="index">
-                    <div><img :src="imgFilm + element.poster_path" alt=""></div>
-                    <div>{{ element.title }}</div>
-                    <div>{{ element.original_title }}</div>
-                    <div><img :src="getFlag(element.original_language)" alt=""></div>
-                    <div>{{ Math.ceil((element.vote_average) / 2) }}</div>
-                    <div>
-                        <i v-for="(star,index) in Math.ceil((element.vote_average) / 2)" :key="index" class="fas fa-star"></i>
-                        <i v-for="(star,index) in ( 5 - Math.ceil((element.vote_average) / 2))" :key="index" class="far fa-star"></i>
-                    </div>
-                </li>
-            </ul>
-        
+            <div class="film_container">
+                <SingleCard class="card" v-for="(singleMovie,index) in films" :key="index" :element="singleMovie" />
+            </div>
+
             <h2>TV SERIES</h2>
-            <ul>
-                <li v-for="(element,index) in foundTv" :key="index">
-                    <div><img :src="imgFilm + element.backdrop_path" alt=""></div>
-                    <div>{{ element.name }}</div>
-                    <div>{{ element.original_name }}</div>
-                     <div>
-                        <i v-for="(star,index) in Math.ceil((element.vote_average) / 2)" :key="index" class="fas fa-star"></i>
-                        <i v-for="(star,index) in ( 5 - Math.ceil((element.vote_average) / 2))" :key="index" class="far fa-star"></i>
-                    </div>
-                </li>
-            </ul>
+            <div class="film_container">
+                <SingleCard class="card" v-for="(singleSerie,index) in series" :key="index" :element="singleSerie" />
+            </div>
         </div>
-        
-    </div>
+    </body>
 </template>
 
 <script>
-import axios from 'axios';
+import SingleCard from './SingleCard.vue';
 
 export default {
-    name: "Body",
-    data: function(){
-        return {
-            searched: '',
-            foundFilms: [],
-            foundTv: [],
-            flag: '',
-            imgFilm: 'http://image.tmdb.org/t/p/w500/',
-            stars: [],
-            noStars: []
-        }
+  components: { 
+        SingleCard 
     },
-    methods: {
-
-        searchFilmsInApi: function(){
-            axios.get('https://api.themoviedb.org/3/search/movie',{
-                params: {
-                    api_key: '69739f2b59204dc50fc56c7466acc9d8',
-                    query: this.searched
-                }
-            }).then((response) => {
-                this.foundFilms = response.data.results;
-            }
-        )},
-        searchSeriesInApi: function(){
-            axios.get('https://api.themoviedb.org/3/search/tv',{
-                params: {
-                    api_key: '69739f2b59204dc50fc56c7466acc9d8',
-                    query: this.searched
-                }
-            }).then((response) => {
-                this.foundTv = response.data.results;
-            }
-        )},
-        getFlag: function(flagInput){
-            if(flagInput === 'en')
-                return 'https://countryflagsapi.com/svg/' + 'usa';
-            else if(flagInput === 'ja')
-                return 'https://countryflagsapi.com/svg/' + 'jp';
-            else{
-                return 'https://countryflagsapi.com/svg/' + flagInput;
-            }
-        }
+    name: "Body",
+    props: {
+        films: Array,
+        series: Array
     },
     
 }
 </script>
 
 <style lang="scss" scoped>
-    img{
-        width: 100px;
-    }
+@import '../style/common.scss';
+    body{
+        height: calc(100vh - 100px);
+        overflow-y: auto;
 
-    .list{
-        display: flex;
-    }
-
-    ul{
-        list-style: none;
-        
-        li{
+        .film_container{
             display: flex;
-            flex-direction: row;
+            overflow-x: auto;
 
-            div{
-                margin: 10px;
+            .card{
+            margin: 5px 20px;
             }
         }
-    }
+    }  
 </style>
