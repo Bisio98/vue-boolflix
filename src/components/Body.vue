@@ -1,5 +1,5 @@
 <template>
-    <body class="container">
+    <section class="container">
         <div class="list">
             <h2>FILMS</h2>
             <div class="film_container">
@@ -11,7 +11,7 @@
                 <SingleCard class="card" v-for="(singleSerie,index) in series" :key="index" :element="singleSerie" />
             </div>
         </div>
-    </body>
+    </section>
 </template>
 
 <script>
@@ -32,7 +32,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../style/common.scss';
-    body{
+    section{
         height: calc(100vh - 100px);
         overflow-y: auto;
 

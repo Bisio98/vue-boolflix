@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header @search="searchMovies" />
-    <Body :films="foundFilms" :series="foundTv"/>
+    <Body :films="foundFilms" :series="foundTv" />
   </div>
 </template>
 
@@ -28,6 +28,7 @@ export default {
       this.searched = elementSearched;
       this.searchFilmsInApi();
       this.searchSeriesInApi();
+      this.searchActorsInApi();
     },
     searchFilmsInApi: function(){
       axios.get('https://api.themoviedb.org/3/search/movie',{

@@ -1,11 +1,11 @@
 <template>
-   <header class="container">
+   <section class="container">
        <h1>BOOLFLIX</h1>
         <div class="search">
             <input v-model="userResearch" type="text"/>
             <button @click="$emit('search', userResearch)">Search</button>
         </div>
-   </header>
+   </section>
 </template>
 
 <script>
@@ -22,7 +22,7 @@ export default {
 <style lang="scss" scoped>
 @import '../style/common.scss';
 
-    header{
+    section{
         height: 100px;
         display: flex;
         align-items: center;

@@ -13,12 +13,17 @@
                     <i v-for="(star,index) in Math.ceil((element.vote_average) / 2)" :key="index" class="fas fa-star"></i>
                     <i v-for="(star,index) in ( 5 - Math.ceil((element.vote_average) / 2))" :key="index" class="far fa-star"></i>
                 </div>
+                <!-- <div v-if="getActors()">
+                    <h4 v-for="(actor,index) in finalActors" :key="index"> {{ actor }}</h4>
+                </div> -->
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: "SingleCard",
     props: {
@@ -29,7 +34,11 @@ export default {
             flag: '',
             imgFilm: 'http://image.tmdb.org/t/p/w500/',
             stars: [],
-            noStars: []
+            noStars: [],
+            actors: [],
+            finalActors: [],
+            request: 'https://api.themoviedb.org/3/movie/',
+            finalRequest: ''
         }
     },
     methods: {
@@ -41,8 +50,24 @@ export default {
             else{
                 return 'https://countryflagsapi.com/svg/' + flagInput;
             }
+        },
+        getActors: function(){
+            this.finalRequest = this.request + this.element.id +'/credits'
+            axios.get(this.finalRequest,{
+            params: {
+                api_key: '69739f2b59204dc50fc56c7466acc9d8',
+                language: 'en-US'
+            }
+            }).then((response) => {
+                this.actors = response.data;
+                }
+            )
+            for(let i= 0; i < 5; i++){
+                this.finalActors.push( this.actors.cast[i]);
+            }
         }
-    }
+    },
+        
 }
 </script>
 
@@ -91,10 +116,11 @@ export default {
                 flex-direction: column;
                 display: none;
                 z-index: 2;
+                text-align: center;
 
                 .flag{
-                width: 30px;
-                height: 10px;
+                    width: 30px;
+                    height: 10px;
                 }
 
                 h3{
